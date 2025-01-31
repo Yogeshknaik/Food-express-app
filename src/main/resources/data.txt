@@ -1,0 +1,17 @@
+INSERT INTO roles (id, name) VALUES
+(1, 'ROLE_ADMIN'),
+(2, 'ROLE_USER');
+
+INSERT INTO users (id, email, password, first_Name, last_Name) VALUES
+(1, 'yogi@admin.com', '$2a$10$moTjfAVBJzNS32q7NPPVh.iAGDbZSkjZJBkdxT5ZLKQ3R1Vh/y9Fi', 'Admin', 'Power');
+
+insert into user_role(user_id, role_id) values
+(1,1),
+(1,2);
+
+123456 => $2a$10$moTjfAVBJzNS32q7NPPVh.iAGDbZSkjZJBkdxT5ZLKQ3R1Vh/y9Fi
+
+
+SELECT * FROM ROLES;
+SELECT * FROM USERS ;
+SELECT * FROM USER_ROLE ;
