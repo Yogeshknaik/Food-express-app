@@ -1,0 +1,26 @@
+create databse mydatabase;
+
+show databases;
+
+use  mydatabase;
+
+show tables;
+
+
+INSERT INTO ROLES (ID, NAME) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO ROLES (ID, NAME) VALUES (2, 'ROLE_USER');
+
+
+ 
+INSERT INTO USERS (ID, EMAIL, FIRST_NAME, LAST_NAME, PASSWORD) VALUES
+(1, 'yogi@admin.com', 'Yogesh(Admin)', 'K', '$2a$10$moTjfAVBJzNS32q7NPPVh.iAGDbZSkjZJBkdxT5ZLKQ3R1Vh/y9Fi'),
+(2, 'nihi@gmail.com', 'niharika', 'nunna', '$2a$10$rbIRHYtWgRtOMybH4Bx3i.McnMdOiEagMRl9pckJDgriRB8xITzsm');
+
+select * from USERS;
+
+INSERT INTO USER_ROLE (ROLE_ID, USER_ID) VALUES
+(1, 1),
+(2, 1),
+(2, 2);
+
+select * from category;
