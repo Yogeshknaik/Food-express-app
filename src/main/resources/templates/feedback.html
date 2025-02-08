@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f9fbfe;
+            font-family: "Roboto", sans-serif;
+        }
+
+        .feedback-form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-heading {
+            font-size: 28px;
+            color: #333333;
+            text-align: center;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .btn.custom-button {
+            color: white;
+            background-color: #FF5733;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn.custom-button:hover {
+            background-color: #e04b2e;
+        }
+
+        .feedback-message {
+            font-weight: bold;
+            color: green;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="feedback-form-container">
+        <h3 class="feedback-heading">We Value Your Feedback</h3>
+        <form th:action="@{/submitFeedback}" method="post">
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Your Feedback</label>
+                <textarea class="form-control" id="feedback" name="feedbackText" rows="4" placeholder="Write your feedback here..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating</label>
+                <select id="rating" name="rating" class="form-control">
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+            </div>
+            <button type="submit" class="btn custom-button btn-block">Submit Feedback</button>
+        </form>
+
+        <!-- Success message -->
+        <div th:if="${message}" class="feedback-message">
+            <span th:text="${message}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
 
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.rktechyt.ecommerce.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,8 +35,12 @@ public class AdminController {
     @Autowired
     ProductService productService;
 
+    private final OrderRepository orderRepository;
 
-    
+    public AdminController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
     @GetMapping("/error")
     public String error(){
         return "error404";
@@ -66,7 +73,6 @@ public class AdminController {
 
     @GetMapping("/admin/categories/delete/{id}")
     public String deleteCategoryById(@PathVariable(name = "id") int category_id){
-
         categoryService.removeCategoryById(category_id);
         return "redirect:/admin/categories";
     }
@@ -98,7 +104,6 @@ public class AdminController {
 
     @PostMapping("/admin/products/add")
     public String postProductAdd(@ModelAttribute(name = "productDTO") ProductDTO productDTO, @RequestParam("productImage") MultipartFile file,@RequestParam("imgName") String imgName) throws IOException {
-        // converting object of productDTO to product type.
         Product product = new Product();
 
         product.setId(productDTO.getId());
@@ -108,7 +113,6 @@ public class AdminController {
         product.setPrice(productDTO.getPrice());
         product.setWeight(productDTO.getWeight());
 
-        // setting Image UUID
         String imageUUID;
         if(!file.isEmpty()){
             imageUUID = file.getOriginalFilename();
@@ -149,4 +153,26 @@ public class AdminController {
             return "error404";
         }
     }
+    @GetMapping("/admin/analytics")
+    public String showAnalytics(Model model) {
+        Double totalRevenue = orderRepository.getTotalRevenue();
+        Long totalOrders = orderRepository.getTotalOrders();
+        List<Object[]> topProducts = orderRepository.getTopSellingProducts();
+        List<Object[]> dailySales = orderRepository.getDailySales();  // Assuming this returns a list of sales with date and value
+
+        // Convert dailySales to JSON string for use in the view
+        String dailySalesJson = new Gson().toJson(dailySales);
+
+        model.addAttribute("totalRevenue", totalRevenue);
+        model.addAttribute("totalOrders", totalOrders);
+        model.addAttribute("topProducts", topProducts);
+        model.addAttribute("dailySalesJson", dailySalesJson);
+
+        // Adding formatted daily sales data as a table to the model
+        model.addAttribute("formattedDailySales", dailySales);
+
+        return "analytics";
+    }
+
+
 }

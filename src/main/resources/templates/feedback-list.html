@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback List</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f9fbfe;
+      font-family: "Roboto", sans-serif;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 34px;
+      color: #FF5733;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+
+    .container {
+      max-width: 90%;
+      margin-top: 50px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .table {
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table thead {
+      background-color: #FF5733;
+      color: white;
+    }
+
+    .table th, .table td {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .table-striped tbody tr:nth-child(odd) {
+      background-color: #f1f1f1;
+    }
+
+    .table-striped tbody tr:nth-child(even) {
+      background-color: #ffffff;
+    }
+
+    .table-bordered {
+      border: 1px solid #ddd;
+    }
+
+    .feedback-message {
+      text-align: center;
+      font-weight: bold;
+      color: #28a745;
+      margin-top: 20px;
+    }
+
+    .back-btn {
+      display: inline-block;  /* Change from block to inline-block */
+      text-align: center;
+      font-size: 16px;
+      padding: 10px 20px;  /* Adjusted padding for more compactness */
+      background-color: #FF5733;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: auto;  /* Make the width dynamic, not fixed */
+      max-width: 250px; /* Set a max width to avoid the button being too wide */
+      margin-top: 20px;
+    }
+
+    .back-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .star-filled {
+      color: #FF5733;
+    }
+    .star-empty {
+      color: #ccc;
+    }
+    .navbar {
+      margin-bottom: 30px; /* Add margin at the bottom of the navbar */
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .navbar-custom {
+      background-color: #FF5733; /* Set the navbar background color to orange */
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">Admin Panel</div>
+  <ul class="nav-links">
+    <li><a th:href="@{/admin}" href="#">Admin Home</a></li>
+    <li><a th:href="@{/logout}" href="#">Logout</a></li>
+  </ul>
+</nav>
+<div class="container">
+  <h2>Feedback List</h2>
+
+  <!-- Success Message -->
+  <div th:if="${message}" class="feedback-message">
+    <span th:text="${message}"></span>
+  </div>
+
+  <!-- Feedback Table -->
+  <!--    <table class="table table-bordered table-striped">-->
+  <!--        <thead>-->
+  <!--        <tr>-->
+  <!--            <th>ID</th>-->
+  <!--            <th>Name</th>-->
+  <!--            <th>Email</th>-->
+  <!--            <th>Feedback</th>-->
+  <!--        </tr>-->
+  <!--        </thead>-->
+  <!--        <tbody>-->
+  <!--        <tr th:each="feedback : ${feedbackList}">-->
+  <!--            <td th:text="${feedback.id}"></td>-->
+  <!--            <td th:text="${feedback.name}"></td>-->
+  <!--            <td th:text="${feedback.email}"></td>-->
+  <!--            <td th:text="${feedback.feedbackText}"></td>-->
+  <!--        </tr>-->
+  <!--        </tbody>-->
+  <!--    </table>-->
+  <!---->
+  <div class="row">
+    <div th:each="feedback : ${feedbackList}" class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${feedback.name}"></h5>
+          <p class="card-text" th:text="${feedback.feedbackText}"></p>
+          <!-- Rating -->
+          <div class="rating" th:if="${feedback.rating}">
+                        <span th:each="i : ${#numbers.sequence(1, 5)}"
+                              th:class="${i <= (feedback.rating != null ? feedback.rating : 0) ?
+                              'fas fa-star star-filled' : 'far fa-star star-empty'}">
+                        </span>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

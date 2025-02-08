@@ -1,0 +1,473 @@
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">-->
+<!--    <title>Admin || Analytics</title>-->
+<!--    <style>-->
+<!--        body {-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background-color: #f4f6f9;-->
+<!--        }-->
+
+<!--        nav {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            padding: 15px 30px;-->
+<!--            background-color:white ;-->
+<!--            color: #FF5733;-->
+<!--            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        .logo {-->
+<!--            font-size: 34px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .nav-links {-->
+<!--            list-style: none;-->
+<!--            display: flex;-->
+<!--            gap: 20px;-->
+<!--        }-->
+
+<!--        .nav-links a {-->
+<!--            text-decoration: none;-->
+<!--            color: black;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .container-fluid {-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            border: none;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .card-title {-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .card-body {-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        .card-link {-->
+<!--            background-color: #FF5733;-->
+<!--            border: none;-->
+<!--        }-->
+
+<!--        .card-link:hover {-->
+<!--            background-color: #e04f30;-->
+<!--        }-->
+
+<!--        .table th, .table td {-->
+<!--            text-align: center;-->
+<!--            padding: 15px;-->
+<!--        }-->
+
+<!--        .chart-container {-->
+<!--            width: 100%;-->
+<!--            height: 400px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<nav>-->
+<!--    <div class="logo">Admin Panel</div>-->
+<!--    <ul class="nav-links">-->
+<!--        <li><a href="/admin">Admin Home</a></li>-->
+<!--        <li><a href="/logout">Logout</a></li>-->
+<!--    </ul>-->
+<!--</nav>-->
+
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--        &lt;!&ndash; Total Revenue &ndash;&gt;-->
+<!--        <div class="col-sm-3 pt-3">-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title">Total Revenue</h4>-->
+<!--                    <h5 th:text="${totalRevenue}">Placeholder</h5>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Total Orders &ndash;&gt;-->
+<!--        <div class="col-sm-3 pt-3">-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title">Total Orders</h4>-->
+<!--                    <h5 th:text="${totalOrders}">Placeholder</h5>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Top Selling Products &ndash;&gt;-->
+<!--        <div class="col-sm-3 pt-3">-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title">Top Selling Products</h4>-->
+<!--                    <ul>-->
+<!--                        <li th:each="product : ${topProducts}">-->
+<!--                            <span th:text="${product[0]}">Product Name</span> - <span th:text="${product[1]}">Sales</span> sales-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Daily Sales Table and Graph &ndash;&gt;-->
+<!--    <div class="row">-->
+<!--        <div class="col-12 pt-3">-->
+<!--            <div class="card">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="card-title">Daily Sales</h4>-->
+<!--                    <table class="table" id="salesTable">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th>Date</th>-->
+<!--                            <th>Sales</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr th:each="sale : ${formattedDailySales}">-->
+<!--                            <td th:text="${sale[0]}">Date</td>-->
+<!--                            <td th:text="${sale[1]}">Sales Amount</td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+<!--                    &lt;!&ndash; Canvas for Chart.js &ndash;&gt;-->
+<!--                    <div class="chart-container">-->
+<!--                        <canvas id="salesChart"></canvas>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+<!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+
+<!--&lt;!&ndash; Chart.js library &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        // Extract sales data from the table-->
+<!--        var salesData = [];-->
+<!--        var dates = [];-->
+<!--        var salesAmounts = [];-->
+
+<!--        var rows = document.querySelectorAll('#salesTable tbody tr');-->
+<!--        rows.forEach(function(row) {-->
+<!--            var date = row.cells[0].innerText;-->
+<!--            var sales = parseFloat(row.cells[1].innerText);-->
+<!--            dates.push(date);-->
+<!--            salesAmounts.push(sales);-->
+<!--        });-->
+
+<!--        // Create the chart-->
+<!--        var ctx = document.getElementById('salesChart').getContext('2d');-->
+<!--        var salesChart = new Chart(ctx, {-->
+<!--            type: 'bar',-->
+<!--            data: {-->
+<!--                labels: dates,-->
+<!--                datasets: [{-->
+<!--                    label: 'Daily Sales',-->
+<!--                    data: salesAmounts,-->
+<!--                    borderColor: '#FF5733',-->
+<!--                    backgroundColor: 'rgba(255, 87, 51, 0.2)',-->
+<!--                    fill: true-->
+<!--                }]-->
+<!--            },-->
+<!--            options: {-->
+<!--                responsive: true,-->
+<!--                scales: {-->
+<!--                    x: {-->
+<!--                        beginAtZero: true-->
+<!--                    },-->
+<!--                    y: {-->
+<!--                        beginAtZero: true-->
+<!--                    }-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <title>Admin || Analytics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            color: #FF5733;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FF5733;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #FF5733;
+        }
+
+        .container-fluid {
+            padding: 30px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            color: #333;
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-link {
+            background-color: #FF5733;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .card-link:hover {
+            background-color: #e04f30;
+        }
+
+        .table th, .table td {
+            text-align: center;
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #FF5733;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: #f2f2f2;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin-top: 30px;
+        }
+
+        .footer {
+            background-color: #FF5733;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">Admin Panel</div>
+    <ul class="nav-links">
+        <li><a href="/admin">Admin Home</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Total Revenue -->
+        <div class="col-sm-3 pt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Total Revenue</h4>
+                    <h5 th:text="${totalRevenue}">Placeholder</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="col-sm-3 pt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Total Orders</h4>
+                    <h5 th:text="${totalOrders}">Placeholder</h5>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Selling Products -->
+        <div class="col-sm-3 pt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Top Selling Products</h4>
+                    <ul>
+                        <li th:each="product : ${topProducts}">
+                            <span th:text="${product[0]}">Product Name</span> - <span th:text="${product[1]}">Sales</span> sales
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Sales Table and Graph -->
+    <div class="row">
+        <div class="col-12 pt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Daily Sales</h4>
+                    <table class="table table-striped" id="salesTable">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Sales</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="sale : ${formattedDailySales}">
+                            <td th:text="${sale[0]}">Date</td>
+                            <td th:text="${sale[1]}">Sales Amount</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Canvas for Chart.js -->
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+<!-- Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Extract sales data from the table
+        var salesData = [];
+        var dates = [];
+        var salesAmounts = [];
+
+        var rows = document.querySelectorAll('#salesTable tbody tr');
+        rows.forEach(function(row) {
+            var date = row.cells[0].innerText;
+            var sales = parseFloat(row.cells[1].innerText);
+            dates.push(date);
+            salesAmounts.push(sales);
+        });
+
+        // Create the chart
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Daily Sales',
+                    data: salesAmounts,
+                    borderColor: '#FF5733',
+                    backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>

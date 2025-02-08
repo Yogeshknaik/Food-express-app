@@ -248,6 +248,29 @@
             color: #d0b200;
             font-size: 35px;
         }
+        .feedback-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 25vh; /* Adjust as needed */
+        }
+
+        .feedback-btn {
+            background-color: #ff5733;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .feedback-btn:hover {
+            background-color: #e04b2e;
+        }
 
         .footer-section {
             background-color: #0d2436;
@@ -586,6 +609,17 @@
         </div>
     </div>
 </div>
+<!--<div class="feedback-section text-center mt-4">-->
+<!--    <button id="openFeedbackForm" class="btn feedback-btn">Give Feedback</button>-->
+<!--    &lt;!&ndash; Feedback Message &ndash;&gt;-->
+<!--    <p id="feedbackMessage" class="feedback-message mt-3" style="display: none; color: green; font-size: 16px;">-->
+<!--        Feedback Submitted. Thank you!-->
+<!--    </p>-->
+<!--</div>-->
+<div class="feedback-container">
+    <a href="" th:href="@{/feedback}" class="feedback-btn">FeedBack Form</a>
+</div>
+
 <div class="footer-section pt-5 pb-5">
     <div class="container">
         <div class="row">
@@ -599,6 +633,19 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById("openFeedbackForm").addEventListener("click", function () {
+        window.open("feedback.html", "_blank", "width=600,height=400"); // Open the form in a new window
+    });
+
+    // Listen for a message from the feedback form
+    window.addEventListener("message", function (event) {
+        if (event.data === "FeedbackSubmitted") {
+            const feedbackMessage = document.getElementById("feedbackMessage");
+            feedbackMessage.style.display = "block"; // Show the feedback message
+        }
+    });
+</script>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
